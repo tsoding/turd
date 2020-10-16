@@ -1,2 +1,2 @@
-A 0 1 R HALT
-A 1 0 R A
+INC 0 1 R HALT
+INC 1 0 R INC
