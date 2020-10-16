@@ -58,13 +58,18 @@ struct Machine
         return false;
     }
 
-    void dump()
+    void dump_tape()
     {
-        writeln("STATE: ", state);
         foreach (cell; tape) {
             write(cell, ' ');
         }
         writeln();
+    }
+
+    void debug_dump()
+    {
+        writeln("STATE: ", state);
+        dump_tape();
         foreach (i, cell; tape) {
             if (i == head) write('^');
             for (int j = 0; j < cell.length; ++j) {
@@ -116,10 +121,13 @@ void usage(File stream)
     stream.writeln("  --help|-h             print this help to stdout and exit with 0 exit code");
     stream.writeln("  --state|-s [STATE]    start from a specific initial state (default: BEGIN)");
     stream.writeln("  --head|-p [POSITION]  start from a specific head position (default: 0)");
+    stream.writeln("  --non-interactively   execute the program non-interactively");
 }
 
 int main(string[] args)
 {
+    bool non_interactively = false;
+
     Machine machine;
     machine.head = 0;
     machine.state = "BEGIN";
@@ -142,6 +150,7 @@ int main(string[] args)
             usage(stdout);
             exit(0);
             break;
+
         case "--state":
         case "-s":
             expect_argument();
@@ -152,6 +161,10 @@ int main(string[] args)
         case "-p":
             expect_argument();
             machine.head = args[i++].to!ulong;
+            break;
+
+        case "--non-interactively":
+            non_interactively = true;
             break;
 
         default:
@@ -192,10 +205,15 @@ int main(string[] args)
         .map!(x => x.strip)
         .array;
 
-    do {
-        machine.dump();
-        readln();
-    } while (machine.next(turds));
+    if (non_interactively) {
+        while (machine.next(turds)) {}
+        machine.dump_tape();
+    } else {
+        do {
+            machine.debug_dump();
+            readln();
+        } while (machine.next(turds));
+    }
 
     return 0;
 }
