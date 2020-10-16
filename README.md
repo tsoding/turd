@@ -9,7 +9,7 @@ $ make
 $ ./turd turds/filler.turd tapes/input-02.tape
 ```
 
-## Turd Files Format
+## Turd File Format
 
 Turd files (examples are located in the [./turds/](./turds/) folder) are the files that contain instructions for the Turing Machine to interpret:
 
@@ -23,3 +23,10 @@ Turd files (examples are located in the [./turds/](./turds/) folder) are the fil
 - Any line may have any amount of leading or trailing whitespaces. All of them are stripped off before processing any instructions.
 - Any empty line after stripping whitespace is ignored.
 - Any line that starts with `#` after stripping whitespaces is ignored.
+
+## Tape File Format
+
+Tape files (examples are located in the [./tapes/](./tapes/) folders) are the files that contain initial state of the Turing Machine tape.
+
+- A tape file consists of sequence of symbols separted by any amount of whitespace characters.
+- Each symbol is a sequence of non-space characeters that represents the symbol stored in the corresponding cell of the Machine's tape.
