@@ -6,7 +6,7 @@ Simple Turing Machine interpreter implemented in D base on Wikipedia article abo
 
 ```console
 $ make
-$ ./turd turds/filler.turd tapes/input-02.tape
+$ ./turd turds/add.turd tapes/input-05.tape
 <PRESS ENTER TO STEP DEBUG>
 ```
 
