@@ -109,17 +109,28 @@ Turd parseTurd(string filepath,
     return turd;
 }
 
+auto states_of_turds(Turd[] turds)
+{
+    State[] states;
+
+    foreach (turd; turds) {
+        states ~= turd.current;
+        states ~= turd.next;
+    }
+
+    return states.sort!"a < b".uniq.array;
+}
+
 int main(string[] args)
 {
-    if (args.length < 4) {
+    if (args.length < 3) {
         stderr.writeln("ERROR: input file is not provided");
-        stderr.writeln("Usage: turd <input.turd> <input.tape> <initial-state>");
+        stderr.writeln("Usage: turd <input.turd> <input.tape>");
         return 1;
     }
 
     auto turd_filepath = args[1];
     auto tape_filepath = args[2];
-    auto initial_state = args[3];
 
     auto turds = readText(turd_filepath)
         .splitLines
@@ -128,6 +139,15 @@ int main(string[] args)
         .filter!(x => x[1].length > 0)
         .map!(x => parseTurd(turd_filepath, x))
         .array;
+
+    auto states = states_of_turds(turds);
+    
+    writeln("POSSIBLE STATES: ");
+    foreach (state; states) {
+        writeln("  ", state);
+    }
+    write("INITIAL STATE: ");
+    auto initial_state = readln.strip;
 
     Machine machine;
     machine.head = 0;
