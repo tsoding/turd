@@ -1,2 +1,2 @@
-main: main.d
-	dmd main.d
+turd: main.d
+	dmd -of=turd main.d

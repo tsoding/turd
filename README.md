@@ -4,5 +4,5 @@
 
 ```console
 $ make
-$ ./turing
+$ ./turd turds/filler.turd tapes/input-02.tape FILLER
 ```
