@@ -132,12 +132,12 @@ int main(string[] args)
     machine.head = 0;
     machine.state = "BEGIN";
 
-    int i = 1;
-    while (i < args.length && !args[i].empty && args[i][0] == '-') {
-        auto flag = args[i++];
+    int args_index = 1;
+    while (args_index < args.length && !args[args_index].empty && args[args_index][0] == '-') {
+        auto flag = args[args_index++];
 
         void expect_argument() {
-            if (i >= args.length) {
+            if (args_index >= args.length) {
                 usage(stderr);
                 stderr.writeln("ERROR: No argument provided for flag `", flag, "`");
                 exit(1);
@@ -154,13 +154,13 @@ int main(string[] args)
         case "--state":
         case "-s":
             expect_argument();
-            machine.state = args[i++];
+            machine.state = args[args_index++];
             break;
 
         case "--head":
         case "-p":
             expect_argument();
-            machine.head = args[i++].to!ulong;
+            machine.head = args[args_index++].to!ulong;
             break;
 
         case "--non-interactively":
@@ -174,20 +174,19 @@ int main(string[] args)
         }
     }
 
-
-    if (i >= args.length) {
+    if (args_index >= args.length) {
         usage(stderr);
         stderr.writeln("ERROR: not turd input file is provided");
         exit(1);
     }
-    auto turd_filepath = args[i++];
+    auto turd_filepath = args[args_index++];
 
-    if (i >= args.length) {
+    if (args_index >= args.length) {
         usage(stderr);
         stderr.writeln("ERROR: not tape input file is provided");
         exit(1);
     }
-    auto tape_filepath = args[i++];
+    auto tape_filepath = args[args_index++];
 
     auto turds = readText(turd_filepath)
         .splitLines
