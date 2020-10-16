@@ -1,2 +1,3 @@
-FILLER 0 1 R FILLER
-FILLER 1 1 R HALT
+# -*- mode: conf; -*-
+BEGIN 0 1 R BEGIN
+BEGIN 1 1 R HALT

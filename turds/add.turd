@@ -1,3 +1,4 @@
+# -*- mode: conf; -*-
 # This program sums up two numbers A and B.
 # Input expects a tape that looks roughly like this:
 # * 1 1 0 0 * 0 1 0 0 *

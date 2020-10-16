@@ -109,28 +109,72 @@ Turd parseTurd(string filepath,
     return turd;
 }
 
-auto states_of_turds(Turd[] turds)
+void usage(File stream)
 {
-    State[] states;
-
-    foreach (turd; turds) {
-        states ~= turd.current;
-        states ~= turd.next;
-    }
-
-    return states.sort!"a < b".uniq.array;
+    stream.writeln("Usage: turd [OPTIONS] <input.turd> <input.tape>");
+    stream.writeln("OPTIONS:");
+    stream.writeln("  --help|-h             print this help to stdout and exit with 0 exit code");
+    stream.writeln("  --state|-s [STATE]    start from a specific initial state (default: BEGIN)");
+    stream.writeln("  --head|-p [POSITION]  start from a specific head position (default: 0)");
 }
 
 int main(string[] args)
 {
-    if (args.length < 3) {
-        stderr.writeln("ERROR: input file is not provided");
-        stderr.writeln("Usage: turd <input.turd> <input.tape>");
-        return 1;
+    Machine machine;
+    machine.head = 0;
+    machine.state = "BEGIN";
+
+    int i = 1;
+    while (i < args.length && !args[i].empty && args[i][0] == '-') {
+        auto flag = args[i++];
+
+        void expect_argument() {
+            if (i >= args.length) {
+                usage(stderr);
+                stderr.writeln("ERROR: No argument provided for flag `", flag, "`");
+                exit(1);
+            }
+        }
+
+        switch (flag) {
+        case "--help":
+        case "-h":
+            usage(stdout);
+            exit(0);
+            break;
+        case "--state":
+        case "-s":
+            expect_argument();
+            machine.state = args[i++];
+            break;
+
+        case "--head":
+        case "-p":
+            expect_argument();
+            machine.head = args[i++].to!ulong;
+            break;
+
+        default:
+            usage(stderr);
+            stderr.writeln("ERROR: unknown flag `", flag, "`");
+            exit(1);
+        }
     }
 
-    auto turd_filepath = args[1];
-    auto tape_filepath = args[2];
+
+    if (i >= args.length) {
+        usage(stderr);
+        stderr.writeln("ERROR: not turd input file is provided");
+        exit(1);
+    }
+    auto turd_filepath = args[i++];
+
+    if (i >= args.length) {
+        usage(stderr);
+        stderr.writeln("ERROR: not tape input file is provided");
+        exit(1);
+    }
+    auto tape_filepath = args[i++];
 
     auto turds = readText(turd_filepath)
         .splitLines
@@ -143,18 +187,6 @@ int main(string[] args)
         .map!(x => parseTurd(turd_filepath, x))
         .array;
 
-    auto states = states_of_turds(turds);
-    
-    writeln("Possible States: ");
-    foreach (state; states) {
-        writeln("  ", state);
-    }
-    write("What is initial state? ");
-    auto initial_state = readln.strip;
-
-    Machine machine;
-    machine.head = 0;
-    machine.state = initial_state;
     machine.tape = readText(tape_filepath)
         .split!isWhite
         .map!(x => x.strip)
