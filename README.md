@@ -4,6 +4,8 @@ Simple Turing Machine interpreter implemented in D base on Wikipedia article abo
 
 ## Quick Start
 
+The build expects [dmd](https://dlang.org/download.html) available in `$PATH`.
+
 ```console
 $ make
 $ ./turd turds/add.turd tapes/input-05.tape
