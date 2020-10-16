@@ -1,18 +1,43 @@
+# This program sums up two numbers A and B.
+# Input expects a tape that looks roughly like this:
+# * 1 1 0 0 * 0 1 0 0 *
+#
+# - The tape starts with a maker * that is used by the BEGIN state to
+#   find the begining of the first number A.
+# - Then follows digits of number A. The number is represented by base-2
+#   numeral system with the least significant digits coming first.
+# - Then follows another maker * that separates number A from number B.
+# - Then follows the figits of number B represented by the same format as
+#   number A
+# - The end of the tape is indicated by another marker *
+#
+# The algorithm computes A + B by continuesly decrementing A and then
+# incrementing B in a loop until A becomes equal to 0. The result of the
+# computation is located in the position of number B. At the end of a
+# successful computation number A should consist of all 1s.
+#
+# The algorithm starts from state BEGIN.
+
+# BEGIN: find the beginning of the number A
 BEGIN * * R DEC
 BEGIN 0 0 L BEGIN
 BEGIN 1 1 L BEGIN
 
+# DEC: decrement number A or HALT if A equals to 0
 DEC 1 0 R NEXT
 DEC 0 1 R DEC
 DEC * * R HALT
 
+# NEXT: find the beginning of number B from the left
 NEXT * * R INC
 NEXT 0 0 R NEXT
 NEXT 1 1 R NEXT
 
+# INC: increment number B
 INC 0 1 R PREV
 INC 1 0 R INC
 
+# PREV: find the begining number B from the right
 PREV * * L BEGIN
 PREV 0 0 L PREV
 PREV 1 1 L PREV

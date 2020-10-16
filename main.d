@@ -136,17 +136,20 @@ int main(string[] args)
         .splitLines
         .map!(x => x.strip)
         .enumerate(1)
-        .filter!(x => x[1].length > 0)
+        // Ignore empty lines
+        .filter!(x => !x.value.empty)
+        // Ignore commented out lines
+        .filter!(x => x.value[0] != '#')
         .map!(x => parseTurd(turd_filepath, x))
         .array;
 
     auto states = states_of_turds(turds);
     
-    writeln("POSSIBLE STATES: ");
+    writeln("Possible States: ");
     foreach (state; states) {
         writeln("  ", state);
     }
-    write("INITIAL STATE: ");
+    write("What is initial state? ");
     auto initial_state = readln.strip;
 
     Machine machine;
