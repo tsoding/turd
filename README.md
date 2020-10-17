@@ -36,6 +36,9 @@ Tape files (examples are located in the [./tapes/](./tapes/) folders) are the fi
 
 ## Execution Process
 
-TBD
+Execution process starts with
+- loading the provided tape file into the tape of the Virtual Turing Machine,
+- setting the head position to 0 (can be changed with flag `-p`),
+- switch to the state `BEGIN` (can be change with flag `-s`).
 
-<!-- TODO: Execution Process is not documented -->
+Then on each iteration of execution the machine finds the first instruction with the matching `<CURRENT-STATE>` and `<READ-SYMBOL>` and executes that instruction. If the machine cannot find an instruction with the matching `<CURRENT-STATE>` and `<READ-SYMBOL>`it halts.
