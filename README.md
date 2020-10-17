@@ -1,6 +1,6 @@
 # Turing Machine Interpreter
 
-Simple Turing Machine interpreter implemented in D base on Wikipedia article about Turing Machine: [https://en.wikipedia.org/wiki/Turing_machine](https://en.wikipedia.org/wiki/Turing_machine)
+Simple Turing Machine interpreter implemented in D based on Wikipedia article about Turing Machine: [https://en.wikipedia.org/wiki/Turing_machine](https://en.wikipedia.org/wiki/Turing_machine)
 
 ## Quick Start
 
@@ -31,8 +31,8 @@ Turd files (examples are located in the [./turds/](./turds/) folder) are the fil
 
 Tape files (examples are located in the [./tapes/](./tapes/) folders) are the files that contain initial state of the Turing Machine tape.
 
-- A tape file consists of sequence of symbols separted by any amount of whitespace characters.
-- Each symbol is a sequence of non-space characeters that represents the symbol stored in the corresponding cell of the Machine's tape.
+- A tape file consists of sequence of symbols separated by any amount of whitespace characters.
+- Each symbol is a sequence of non-space characters that represents the symbol stored in the corresponding cell of the Machine's tape.
 
 ## Execution Process
 
